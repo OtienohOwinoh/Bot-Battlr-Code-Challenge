@@ -16,13 +16,13 @@ function BotsPage() {
       console.log("Bots:" + result)
       setBots(result)
     })
-  })
+  }, [])
 
 
   return (
     <div>
-      <YourBotArmy botArmy={botArmy} setBotArmy={setBotArmy}/>
-      <BotCollection bots={bots} setBotArmy={setBotArmy}/>
+      <YourBotArmy botArmy={botArmy} setBotArmy={setBotArmy} setBots={setBots} />
+      <BotCollection bots={bots} setBotArmy={setBotArmy} setBots={setBots} />
     </div>
   )
 }

@@ -12,24 +12,73 @@ const botTypeClasses = {
 
 
 
-function BotCard({ bot, setBotArmy }) {
+function BotCard({ bot, setBotArmy, setBots, position }) {
 
   
   function handleBotClick(e) {
-    setBotArmy(currentArmy => {
+
+    console.log("Bot Clicked: ID: " + bot.id)
+
+    e.stopPropagation()
+
+    setBotArmy(currentArmy=> {
+
+      currentArmy = [...currentArmy]
+
       if(currentArmy.includes(bot)) {
-        // remove bot from army
-        currentArmy.splice(currentArmy.indexOf(bot), 1)
+
+        if(position == "army") {
+          // remove bot from army
+          currentArmy.splice(currentArmy.indexOf(bot), 1)
+        }
+
+        
       } else {
         // add bot to army
         currentArmy.push(bot)
       }
 
-      return currentArmy
+      console.log("Army:" + typeof currentArmy + " Size: " + currentArmy.length)
+      return currentArmy;
 
-      
     })
+
+    
   }
+
+
+
+
+  function dischargeBot(e) {
+
+    e.stopPropagation()
+
+
+    fetch(`http://localhost:8002/bots/${bot.id}`, { method: 'DELETE' }).then((response)=>{
+
+      // remove from army
+      setBotArmy(currentArmy => {
+
+        currentArmy = [...currentArmy]
+
+        if(currentArmy.includes(bot)) {
+          // remove bot from army
+          currentArmy.splice(currentArmy.indexOf(bot), 1)
+        }
+        return currentArmy
+      })
+
+      // remove from list
+      setBots(currentBots => {
+        currentBots = [...currentBots]
+        currentBots.splice(currentBots.indexOf(bot), 1)
+        return currentBots
+      })
+
+
+  })
+
+}
 
 
   return (
@@ -69,8 +118,8 @@ function BotCard({ bot, setBotArmy }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>
-                  console.log("add code to connect event listener")
+                onClick={(e) =>
+                  dischargeBot(e)
                 }
               >
                 x
