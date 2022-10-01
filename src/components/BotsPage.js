@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import YourBotArmy from "./YourBotArmy";
 import BotCollection from "./BotCollection";
 
 function BotsPage() {
-  //start here with your code for step one
+
+  const baseUrl = "http://localhost:8002/bots"
+
+  //get bots
+  const [bots, setBots] = useState([])
+
+  useEffect(function populateBots() {
+    fetch(baseUrl).then((response)=>response.json()).then((result)=>{
+      console.log("Bots:" + result)
+      setBots(result)
+    })
+  })
+
 
   return (
     <div>
       <YourBotArmy />
-      <BotCollection />
+      <BotCollection bots={bots}/>
     </div>
   )
 }
