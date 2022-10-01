@@ -8,6 +8,8 @@ function BotsPage() {
 
   //get bots
   const [bots, setBots] = useState([])
+  const [botArmy, setBotArmy] = useState([])
+
 
   useEffect(function populateBots() {
     fetch(baseUrl).then((response)=>response.json()).then((result)=>{
@@ -19,8 +21,8 @@ function BotsPage() {
 
   return (
     <div>
-      <YourBotArmy />
-      <BotCollection bots={bots}/>
+      <YourBotArmy botArmy={botArmy} setBotArmy={setBotArmy}/>
+      <BotCollection bots={bots} setBotArmy={setBotArmy}/>
     </div>
   )
 }
